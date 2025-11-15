@@ -1,0 +1,89 @@
+.session-item {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.session-item:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.session-item.active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.session-item-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.session-item-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.session-item-preview {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.session-item.active .session-item-preview {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.session-item-meta {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.session-item.active .session-item-meta {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.session-item-actions {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 0.25rem;
+  background-color: inherit;
+  padding: 0.25rem;
+  border-radius: 6px;
+}
+
+.session-action-btn {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  background-color: var(--bg-tertiary);
+}
+
+.session-action-btn:hover {
+  background-color: var(--border-color);
+}
+
+.session-action-delete:hover {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.session-item-input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}

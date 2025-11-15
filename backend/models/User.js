@@ -1,52 +1,63 @@
-// User Schema for MongoDB
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  name: {
+  username: {
     type: String,
-    required: [true, 'Name is required'],
-    trim: true,
+    required: true,
+    unique: true,
+    trim: true
   },
   email: {
     type: String,
-    required: [true, 'Email is required'],
+    required: true,
     unique: true,
     lowercase: true,
-    trim: true,
-    match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email'],
+    trim: true
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
-    minlength: [6, 'Password must be at least 6 characters'],
+    required: true
   },
-  resetToken: {
+  preferences: {
+  theme: {
     type: String,
-    default: null,
+    enum: ['light', 'dark'],
+    default: 'light'
   },
-  resetTokenExpiry: {
+  modelSettings: {
+    temperature: {
+      type: Number,
+      default: 0.7,
+      min: 0,
+      max: 2
+    },
+    model: {
+      type: String,
+      default: 'openai/gpt-3.5-turbo'  // Or any OpenRouter model
+    },
+    systemPrompt: {
+      type: String,
+      default: 'You are a helpful assistant.'
+    }
+  }
+},
+  createdAt: {
     type: Date,
-    default: null,
-  },
-}, {
-  timestamps: true, // Adds createdAt and updatedAt
+    default: Date.now
+  }
 });
 
 // Hash password before saving
 userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) {
-    return next();
-  }
-  
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
 // Method to compare passwords
-userSchema.methods.matchPassword = async function(enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+userSchema.methods.comparePassword = async function(candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
 };
 
 module.exports = mongoose.model('User', userSchema);

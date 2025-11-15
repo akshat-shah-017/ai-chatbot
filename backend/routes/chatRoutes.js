@@ -32,7 +32,7 @@ router.post("/", verifyToken, async (req, res) => {
       const response = await axios.post(
         "https://openrouter.ai/api/v1/chat/completions",
         {
-          model: "openrouter/polaris-alpha",
+          model: "google/gemini-2.0-flash-exp:free",
           messages: [
             { role: "system", content: "You are a friendly and helpful AI assistant." },
             { role: "user", content: message },

@@ -1,0 +1,24 @@
+.new-session-button {
+  margin: 1rem;
+  padding: 0.875rem;
+  background-color: var(--accent-color);
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.new-session-button:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.new-session-icon {
+  font-size: 1.5rem;
+  font-weight: bold;
+}

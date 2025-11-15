@@ -1,26 +1,48 @@
-// backend/models/Message.js
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const MessageSchema = new mongoose.Schema({
-  userId: {
+const messageSchema = new mongoose.Schema({
+  sessionId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'Session',
     required: true,
+    index: true
   },
-  sender: {
+  role: {
     type: String,
-    enum: ["user", "bot"],
-    required: true,
+    enum: ['user', 'assistant', 'system'],
+    required: true
   },
-  message: {
+  content: {
     type: String,
     required: true,
+    maxlength: 50000
   },
-  timestamp: {
+  fileAttachments: [{
+    fileId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'FileUpload'
+    },
+    fileName: String,
+    fileType: String
+  }],
+  metadata: {
+    model: String,
+    temperature: Number,
+    tokens: Number,
+    isEdited: {
+      type: Boolean,
+      default: false
+    },
+    originalContent: String
+  },
+  createdAt: {
     type: Date,
     default: Date.now,
-  },
+    index: true
+  }
 });
 
-// Avoid model overwrite errors in development/hot-reload environments
-module.exports = mongoose.models.Message || mongoose.model("Message", MessageSchema);
+// Compound index for efficient message retrieval
+messageSchema.index({ sessionId: 1, createdAt: 1 });
+
+module.exports = mongoose.model('Message', messageSchema);
